@@ -12,8 +12,8 @@ int main(int argc, char **argv[])
     size_t n = 0;
     ssize_t gl;
     pid_t fork_id, w_pid, pid, ppid;
-    char *argv[] = { NULL };
-    char *envp[] = { NULL };
+    char *exe_argv[] = { NULL };
+    char *exe_envp[] = { NULL };
 
     do{
         printf("($) ");    /* prints the prompt*/
@@ -31,7 +31,7 @@ int main(int argc, char **argv[])
                exit(EXIT_FAILURE);
         }
         if (fork_id == 0)
-            execve(string, argv, envp);
+            execve(string, exe_argv, exe_envp);
         if (fork_id != 0)
             w_pid = wait(NULL);
 
