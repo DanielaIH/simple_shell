@@ -1,17 +1,18 @@
 #include "main.h"
 
 /**
- * main - 
- * 
+ * main - interactive command line interpreter
+ * @argc - number of arguments
+ * @argv - arguments
  */
 
 int main(int argc, char **argv[])
 {
-    extern char **environ;
+//    extern char **environ;
     char *string = NULL;
     size_t n = 0;
     ssize_t gl;
-    pid_t fork_id, w_pid, pid, ppid;
+    pid_t fork_id, w_pid; //w_pid, pid, ppid
     char *exe_argv[] = { NULL };
     char *exe_envp[] = { NULL };
 
@@ -25,16 +26,20 @@ int main(int argc, char **argv[])
             return(EXIT_FAILURE); /* EXIT_SUCCESS or EXIT_FAILURE */
         }
         fork_id = fork ();
-        if (fork_id == -1) 
+        if (fork_id == -1)
         {
                perror("fork");
                exit(EXIT_FAILURE);
         }
         if (fork_id == 0)
-            execve(string, exe_argv, exe_envp);
-        if (fork_id != 0)
-            w_pid = wait(NULL);
+		execve(string, exe_argv, exe_envp);
 
+	if (fork_id != 0)
+	{
+		w_pid = wait(NULL);
+		if (w_pid == -1)
+		exit(EXIT_FAILURE);
+	}
     } while (1);
     return (0);
 }
