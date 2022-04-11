@@ -6,6 +6,7 @@
 #include <string.h>
 #include <sys/types.h> /* definitions */
 #include <sys/stat.h> /* structure of the data */
+#include <sys/wait.h>
 #include <fcntl.h> /* open() */
 #include <unistd.h> /* constants */
 
