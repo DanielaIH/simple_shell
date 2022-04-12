@@ -12,7 +12,7 @@ int main(void)
 	size_t n = 0;
 	ssize_t gl;
 	pid_t fork_id, w_pid; /*w_pid, pid, ppid*/
-	int i = 0;
+	int i;
 	/*char *exe_envp[] = { "PATH=$PATH", NULL };*/
 	char **tokens;
 	char *token;
@@ -36,23 +36,20 @@ int main(void)
 				return(EXIT_FAILURE); /* EXIT_SUCCESS or EXIT_FAILURE */
 			free(string);
 		}
-		if ((token = malloc(sizeof(char) * strlen(string))) == NULL)
-		{
-			free(token);
-			return(EXIT_FAILURE); /* EXIT_SUCCESS or EXIT_FAILURE */
-		}
-		if ((tokens = malloc(strlen(string) * sizeof(char *))) == NULL)
+		
+		if ((tokens = malloc(10 * sizeof(char *))) == NULL)
 		{
 			free(tokens);
 			return(EXIT_FAILURE); /* EXIT_SUCCESS or EXIT_FAILURE */
 		}
+
 		token = strtok(string, " \t\n");
 		while (token != NULL)
 		{
 			tokens[i] = token;
-			/*printf("%s\n", tokens[i]);*/
+			printf("%s\n", tokens[i]);
 			i++;
-			token = strtok(NULL, " ");
+			token = strtok(NULL, " \t\n");
 			fflush(stdout);
 		}
 		tokens[i] = NULL;
@@ -61,6 +58,9 @@ int main(void)
 
 		if (fork_id == -1)
 		{
+			free(tokens);
+			free(token);
+			free(string);
 			perror("./shell");
 			exit(EXIT_FAILURE);
 		}
@@ -68,20 +68,24 @@ int main(void)
 		{
 			if (execv(tokens[0], tokens) == -1)
 			{
+				free(tokens);
+				free(token);
+				free(string);
 				perror("./shell");
 				exit(EXIT_FAILURE);
 			}
 		}
+
 		if (fork_id != 0)
 		{
+			free(tokens);
+			free(token);
+			free(string);
 			w_pid = wait(NULL);
 			if (w_pid == -1)
 				exit(EXIT_FAILURE);
 		}
 	} while (1);
-
-	for (i = 0; tokens != NULL; i++)
-		free(tokens[i]);
 	free(tokens);
 	free(token);
 	free(string);
