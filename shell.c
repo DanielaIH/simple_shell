@@ -8,33 +8,43 @@
 
 int main(void)
 {       /*  int argc, char **argv[], extern char **environ; */
-	char *string = NULL;
+	char *string;
 	size_t n = 0;
 	ssize_t gl;
 	pid_t fork_id, w_pid; /*w_pid, pid, ppid*/
-	int i = 0, buffer = 1024;
+	int i = 0;
 	/*char *exe_envp[] = { "PATH=$PATH", NULL };*/
-	char **tokens = malloc(buffer * sizeof(char *));
+	char **tokens;
 	char *token;
 
 	do{
-		n = 0, i = 0, buffer = 1024;
-		tokens = malloc(buffer * sizeof(char *));
-		printf("($) ");    /* prints the prompt*/
+		string = NULL;
+		n = 0, i = 0;
+
+		if (write (STDOUT_FILENO, "($) ", 4) == -1) /* prints the prompt*/
+		{
+			dprintf(STDERR_FILENO, "Can't write the stdout");
+		}
+		
 		/* ssize_t getline(char **restrict lineptr, size_t *restrict n, FILE *restrict stream); */
 		gl = getline(&string, &n, stdin);/* read the line */
 		if (gl == -1)
 		{
 			if(feof(stdin))
-			{
-				free(string);
 				return (EXIT_SUCCESS);
-			}
 			else
-			{
-				free(string);
 				return(EXIT_FAILURE); /* EXIT_SUCCESS or EXIT_FAILURE */
-			}
+			free(string);
+		}
+		if ((token = malloc(sizeof(char) * strlen(string))) == NULL)
+		{
+			free(token);
+			return(EXIT_FAILURE); /* EXIT_SUCCESS or EXIT_FAILURE */
+		}
+		if ((tokens = malloc(strlen(string) * sizeof(char *))) == NULL)
+		{
+			free(tokens);
+			return(EXIT_FAILURE); /* EXIT_SUCCESS or EXIT_FAILURE */
 		}
 		token = strtok(string, " \t\n");
 		while (token != NULL)
@@ -45,7 +55,7 @@ int main(void)
 			token = strtok(NULL, " ");
 			fflush(stdout);
 		}
-		tokens[i + 1] = NULL;
+		tokens[i] = NULL;
 
 		fork_id = fork ();
 
@@ -72,7 +82,8 @@ int main(void)
 
 	for (i = 0; tokens != NULL; i++)
 		free(tokens[i]);
-	free(string);
 	free(tokens);
+	free(token);
+	free(string);
 	return (0);
 }
