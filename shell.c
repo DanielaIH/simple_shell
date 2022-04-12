@@ -1,5 +1,16 @@
 #include "main.h"
 
+void free_memory(char **tokens, char *token, char *string)
+{
+	int i;
+	for (i = 0; tokens != NULL; i++)
+		free(tokens[i]);
+	free(tokens);
+	free(token);
+	free(string);
+
+}
+
 /**
  * main - interactive command line interpreter
  * @argc - number of arguments
@@ -8,42 +19,45 @@
 
 int main(void)
 {       /*  int argc, char **argv[], extern char **environ; */
-	char *string;
+	char *string, **tokens, *token;
 	size_t n = 0;
 	ssize_t gl;
 	pid_t fork_id, w_pid; /*w_pid, pid, ppid*/
 	int i;
 	/*char *exe_envp[] = { "PATH=$PATH", NULL };*/
-	char **tokens;
-	char *token;
 
 	do{
-		string = NULL;
+		string = NULL, token = NULL, tokens = NULL;
 		n = 0, i = 0;
 
 		if (write (STDOUT_FILENO, "($) ", 4) == -1) /* prints the prompt*/
-		{
 			dprintf(STDERR_FILENO, "Can't write the stdout");
-		}
-		
+
 		/* ssize_t getline(char **restrict lineptr, size_t *restrict n, FILE *restrict stream); */
 		gl = getline(&string, &n, stdin);/* read the line */
 		if (gl == -1)
 		{
+			free_memory(tokens, token, string);
 			if(feof(stdin))
 				return (EXIT_SUCCESS);
 			else
 				return(EXIT_FAILURE); /* EXIT_SUCCESS or EXIT_FAILURE */
-			free(string);
 		}
 		
 		if ((tokens = malloc(10 * sizeof(char *))) == NULL)
 		{
-			free(tokens);
+			i++, token = strtok(NULL, " ");
+			printf("%d, ", i);
+			fflush(stdout);
+		}
+		if ((tokens = malloc((i - 1) * sizeof(char *))) == NULL)
+		{
+			free_memory(NULL, token, string);
 			return(EXIT_FAILURE); /* EXIT_SUCCESS or EXIT_FAILURE */
 		}
 
 		token = strtok(string, " \t\n");
+		i = 0;
 		while (token != NULL)
 		{
 			tokens[i] = token;
@@ -83,7 +97,10 @@ int main(void)
 			free(string);
 			w_pid = wait(NULL);
 			if (w_pid == -1)
+			{
+				free_memory(tokens, token, string);
 				exit(EXIT_FAILURE);
+			}
 		}
 	} while (1);
 	free(tokens);
