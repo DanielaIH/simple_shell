@@ -52,9 +52,10 @@ int main(void)
 		while (token != NULL)
 		{
 			i++, token = strtok(NULL, " ");
+			printf("%d, ", i);
 			fflush(stdout);
 		}
-		if ((tokens = malloc((i + 1) * sizeof(char *))) == NULL)
+		if ((tokens = malloc((i - 1) * sizeof(char *))) == NULL)
 		{
 			free_memory(NULL, token, string);
 			return(EXIT_FAILURE); /* EXIT_SUCCESS or EXIT_FAILURE */
@@ -64,7 +65,7 @@ int main(void)
 		while (token != NULL)
 		{
 			tokens[i] = token;
-			/*printf("%s\n", tokens[i]);*/
+			printf("%s\n", tokens[i]);
 			i++;
 			token = strtok(NULL, " ");
 			fflush(stdout);
