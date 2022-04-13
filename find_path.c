@@ -47,8 +47,8 @@ int find_path(char *command)
     return (0);
 }
 
-int main(void)
+/*int main(void)
 {
 	find_path("ls");
     return(0);
-}
+}*/

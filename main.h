@@ -16,4 +16,6 @@ typedef struct commands
     int (*func)(va_list);
 } command;
 
+void free_memory(char **tokens, char *token, char *string);
+
 #endif
