@@ -17,5 +17,6 @@ typedef struct commands
 } command;
 
 void free_memory(char **tokens, char *token, char *string);
+char **_strtok(char **tokens, char *string, char *delim);
 
 #endif

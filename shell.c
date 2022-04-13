@@ -8,81 +8,63 @@
 
 int main(int argc, char *argv[], char *envp[])
 {
-	char *string;
-	size_t n = 0;
-	ssize_t gl;
-	pid_t fork_id, w_pid; /*w_pid, pid, ppid*/
-	int i;
-	/*char *exe_envp[] = { "PATH=$PATH", NULL };*/
-	char **tokens;
-	char *token;
+        char *string, **tokens, *token;
+        size_t n = 0;
+        ssize_t gl;
+        pid_t fork_id, w_pid; /*w_pid, pid, ppid*/
 
-	printf("%d", argc);
-	printf("%s", argv[0]);
-	printf("%s", envp[0]);
+        /*char *exe_envp[] = { "PATH=$PATH", NULL };*/
 
-	do{
-		string = NULL;
-		n = 0, i = 0;
+        printf("argc %d", argc);
+        printf("argv %s", argv[0]);
+        printf("envp %s", envp[0]);
 
-		if (write (STDOUT_FILENO, "($) ", 4) == -1) /* prints the prompt*/
-		{
-			dprintf(STDERR_FILENO, "Can't write the stdout");
-		}
-		
-		gl = getline(&string, &n, stdin);/* read the line */
-		if (gl == -1)
-		{
-			free_memory(NULL, NULL, string);
-			if(feof(stdin))
-				return (EXIT_SUCCESS);
-			else
-				return(EXIT_FAILURE); /* EXIT_SUCCESS or EXIT_FAILURE */
-		}
-		
-		if ((tokens = malloc(10 * sizeof(char *))) == NULL)
-		{
-			free_memory(tokens, NULL, NULL);
-			return(EXIT_FAILURE); /* EXIT_SUCCESS or EXIT_FAILURE */
-		}
+        do{
+                string = NULL, token = NULL, tokens= NULL;
+                n = 0;
 
-		token = strtok(string, " \t\n");
-		while (token != NULL)
-		{
-			tokens[i] = token;
-			printf("%s\n", tokens[i]);
-			i++;
-			token = strtok(NULL, " \t\n");
-			fflush(stdout);
-		}
-		tokens[i] = NULL;
+                if (write (STDOUT_FILENO, "($) ", 4) == -1) /* prints the prompt*/
+                {
+                        dprintf(STDERR_FILENO, "Can't write the stdout");
+                }
 
-		fork_id = fork ();
+                gl = getline(&string, &n, stdin);/* read the line */
+                if (gl == -1)
+                {
+                        free_memory(NULL, NULL, string);
+                        if(feof(stdin))
+                                return (EXIT_SUCCESS);
+                        else
+                                return(EXIT_FAILURE); /* EXIT_SUCCESS or EXIT_FAILURE */
+                }
+                tokens = _strtok(tokens, string, " \t\n");
 
-		if (fork_id == -1)
-		{
-			free_memory(tokens, token, string);
-			perror("./shell");
-			exit(EXIT_FAILURE);
-		}
-		if (fork_id == 0)
-		{
-			if (execv(tokens[0], tokens) == -1)
-			{
-				free_memory(tokens, token, string);
-				perror("./shell");
-				exit(EXIT_FAILURE);
-			}
-		}
+                fork_id = fork ();
 
-		if (fork_id != 0)
-		{
-			free_memory(tokens, token, string);
-			w_pid = wait(NULL);
-			if (w_pid == -1)
-				exit(EXIT_FAILURE);
-		}
-	} while (1);
-	free_memory(tokens, token, string);
-	return (0);
+                if (fork_id == -1)
+                {
+                        free_memory(tokens, NULL, string);
+                        perror("./shell");
+                        exit(EXIT_FAILURE);
+                }
+                if (fork_id == 0)
+                {
+                        if (execv(tokens[0], tokens) == -1)
+                        {
+                                free_memory(tokens, token, string);
+                                perror("./shell");
+                                exit(EXIT_FAILURE);
+                        }
+                }
+
+                if (fork_id != 0)
+                {
+                        free_memory(tokens, token, string);
+                        w_pid = wait(NULL);
+                        if (w_pid == -1)
+                                exit(EXIT_FAILURE);
+                }
+        } while (1);
+        free_memory(tokens, token, string);
+        return (0);
 }
