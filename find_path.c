@@ -1,54 +1,38 @@
 #include "main.h"
 
-int find_path(char *command)
+char *find_path(char *command)
 {
-	char *path = getenv("PATH");
-    char **directories, **directories2;
-	char *directory;
-    int i = 0;
+    extern char **environ;
+    char *copy = NULL, **env = environ;
+    char **directories = malloc(1024), *directory = NULL;
     struct stat st;
-    char *slash = "/";
+    int count = 0, i = 0;
 
-    printf("path: %s\n", path);
-    printf("command: %s\n", command);
-	/* char *string_path = malloc(strlen(path) + strlen(command) + 2);*/
-    directories = malloc(50 * sizeof(char *));
-    directory = strtok(path, ":");
-		while (directory != NULL)
-		{
-			directories[i] = directory;
-			printf("%s\n", directories[i]);
-			i++;
-			directory = strtok(NULL, ":");
-			fflush(stdout);
-		}
-		directories[i] = NULL;
-    directories2 = malloc(i * sizeof(char *));
-    i = 0;
-    while (directories[i])
+    for (count = 0; env[count] != NULL; count++)
     {
-        directories2[i] = strcat(directories[i], slash);
-        i++;
+        if ((strncmp("PATH", env[count], 4)) == 0)
+            break;
     }
-    i = 0;
-    while (directories2[i])
-    {
-        printf("%s:", directories2[i]);
-        if (stat(command, &st) == 0)
+
+    copy = malloc(strlen(env[count]) + 1);
+    strcpy(copy, env[count]);
+    directory = strtok(copy, ":=");
+        while (directory != NULL)
         {
-            printf(" FOUND\n");
+                directories[i] = strdup(directory);
+                strcat(directories[i], "/");
+                strcat(directories[i], command);
+                /*printf("%s\n", directories[i]);*/
+                if (stat(directories[i], &st) == 0)
+                {
+                        free(copy);
+                        return (directories[i]);
+                        break;
+                }
+                i++;
+                directory = strtok(NULL, ":");
         }
-        else
-        {
-            printf(" NOT FOUND\n");
-        }
-        i++;
-    }
-    return (0);
+        free(copy);
+        free(directories);
+        return (NULL);
 }
-
-/*int main(void)
-{
-	find_path("ls");
-    return(0);
-}*/

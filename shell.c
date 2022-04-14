@@ -17,7 +17,7 @@ int main(int argc, char *argv[], char *envp[])
 
         printf("argc %d", argc);
         printf("argv %s", argv[0]);
-        printf("envp %s", envp[0]);
+        printf("envp %s\n", envp[0]);
 
         do{
                 string = NULL, token = NULL, tokens= NULL;
@@ -38,8 +38,16 @@ int main(int argc, char *argv[], char *envp[])
                                 return(EXIT_FAILURE); /* EXIT_SUCCESS or EXIT_FAILURE */
                 }
                 tokens = _strtok(tokens, string, " \t\n");
-
-                fork_id = fork ();
+		if (tokens[0][0] != '/')
+		{
+			tokens[0] = find_path(tokens[0]);
+			if (tokens[0] == NULL)
+			{
+				perror("./shell");
+				exit(EXIT_FAILURE);
+			}
+		}
+		fork_id = fork ();
 
                 if (fork_id == -1)
                 {
