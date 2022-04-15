@@ -10,14 +10,15 @@
 #include <fcntl.h> /* open() */
 #include <unistd.h> /* constants */
 
-typedef struct commands
+typedef struct built_in
 {
     char *name;
-    int (*func)(va_list);
+    int (*func)(char**);
 } command;
 
-void free_memory(char **tokens, char *token, char *string);
 char **_strtok(char **tokens, char *string, char *delim);
 char *find_path(char *command);
+int exit_shell(char **tokens);
+void execute(char **tokens);
 
 #endif

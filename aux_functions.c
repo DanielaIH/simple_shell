@@ -1,19 +1,11 @@
 #include "main.h"
-
 /**
- * free_memory - free the memory allocation.
- * @tokens: - structure of tokens.
- * @token: - pointer to the token.
- * @string: pointer to string.
+ * _strtok - Split the string in tokens.
+ * @tokens: Array contains the tokens.
+ * @string: Entered line.
+ * @delim: chars to separate the string
+ * @return: Array with tokens.
  */
-
-void free_memory(char **tokens, char *token, char *string)
-{
-        free(tokens);
-        free(token);
-        free(string);
-}
-
 
 char **_strtok(char **tokens, char *string, char *delim)
 {
@@ -21,19 +13,24 @@ char **_strtok(char **tokens, char *string, char *delim)
         int i = 0;
 
         if ((tokens = malloc(10 * sizeof(char *))) == NULL)
-                {
-                        free_memory(tokens, NULL, NULL);
-                        exit(EXIT_FAILURE); /* EXIT_SUCCESS or EXIT_FAILURE */
-                }
+        {
+                free(tokens);
+                free(string);
+                perror("./shell5");
+                return(NULL);
+        }
 
-                token = strtok(string, delim);
-                while (token != NULL)
-                {
-                        tokens[i] = token;
-                        /*printf("%s\n", tokens[i]);*/
-                        i++;
-                        token = strtok(NULL, delim);
-                }
-                tokens[i] = NULL;
-                return (tokens);
+        token = strtok(string, delim);
+        while (token != NULL)
+        {
+                tokens[i] = token;
+                /*printf("%s\n", tokens[i]);*/
+                i++;
+                token = strtok(NULL, delim);
+        }
+        tokens[i + 1] = NULL;
+        /*printf("in func tokenize tokens[0]=%s\n", tokens[0]);*/
+        free(token);
+        /*free(string);*/
+        return (tokens);
 }
