@@ -3,7 +3,7 @@
 /**
  * exit_shell - exits of the shell.
  * @tokens: Array contains the tokens.
- * @return: Int
+ * Return: Int
  */
 
 int exit_shell(char **tokens)
