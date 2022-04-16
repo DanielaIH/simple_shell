@@ -17,3 +17,9 @@ int exit_shell(char **tokens)
  * @brief
  *
  */
+
+int ambiente(char **tokens)
+{
+	free(tokens);
+	return (1);
+}

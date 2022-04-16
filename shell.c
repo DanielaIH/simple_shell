@@ -39,7 +39,7 @@ printf("envp %s\n", envp[0]); */
 /*printf("after tokenfn tokens[0] =%s\n", tokens[0]);*/
 		for (i = 0; built_ins[i].name; i++)
 		{
-			if (built_ins[i].name == tokens[0])
+			if (strcmp(built_ins[i].name, tokens[0]) == 0)
 			{
 				if ((built_ins[i].func(tokens)) == 1)
 					return (EXIT_SUCCESS);
