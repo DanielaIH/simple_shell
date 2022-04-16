@@ -41,8 +41,9 @@ printf("envp %s\n", envp[0]); */
 		{
 			if (strcmp(built_ins[i].name, tokens[0]) == 0)
 			{
-				if ((built_ins[i].func(tokens)) == 1)
-					return (EXIT_SUCCESS);
+				free(string);
+				built_ins[i].func(tokens);
+				return (EXIT_SUCCESS);
 			}
 		}
 		if (tokens[0][0] == '/')
@@ -55,7 +56,9 @@ printf("envp %s\n", envp[0]); */
 			else
 				execute(tokens);
 		}
+		
 	} while (1);
 	free(tokens);
+	free(string);
 	return (0);
 }

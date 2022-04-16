@@ -16,7 +16,6 @@ char **_strtok(char **tokens, char *string, char *delim)
 	if (tokens == NULL)
 	{
 		free(tokens);
-		free(string);
 		perror("./shell5");
 		return (NULL);
 	}
@@ -25,13 +24,11 @@ char **_strtok(char **tokens, char *string, char *delim)
 	while (token != NULL)
 	{
 		tokens[i] = token;
-/*printf("%s\n", tokens[i]);*/
 		i++;
 		token = strtok(NULL, delim);
 	}
-	tokens[i + 1] = NULL;
-/*printf("in func tokenize tokens[0]=%s\n", tokens[0]);*/
+	tokens[i] = NULL;
+
 	free(token);
-/*free(string);*/
 	return (tokens);
 }
