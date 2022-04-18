@@ -43,7 +43,10 @@ char *find_path(char *command)
 		i++;
 		directory = strtok(NULL, ":");
 	}
-	free(copy);
+	for (j = 0; j < i; j++)
+		free(directories[j]);
+	free(directories);
 	free(directory);
+	free(copy);
 	return (NULL);
 }

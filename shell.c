@@ -53,7 +53,10 @@ printf("envp %s\n", envp[0]); */
 			ruta = find_path(tokens[0]);
 			tokens[0] = ruta;
 			if (tokens[0] == NULL)
+			{
 				perror("./shell1");
+				free(tokens);
+			}
 			else
 				execute(tokens);
 			free(ruta);
