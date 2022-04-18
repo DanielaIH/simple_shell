@@ -10,7 +10,7 @@
 /*int main(int argc, char *argv[], char *envp[])*/
 int main(void)
 {
-	char *string, **tokens;
+	char *string, *ruta, **tokens;
 	size_t n = 0;
 	ssize_t gl;
 	int i = 0;
@@ -50,15 +50,16 @@ printf("envp %s\n", envp[0]); */
 			execute(tokens);
 		else
 		{
-			tokens[0] = find_path(tokens[0]);
+			ruta = find_path(tokens[0]);
+			tokens[0] = ruta;
 			if (tokens[0] == NULL)
 				perror("./shell1");
 			else
 				execute(tokens);
+			free(ruta);
 		}
-		
+		free(string);
 	} while (1);
 	free(tokens);
-	free(string);
 	return (0);
 }

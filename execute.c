@@ -23,9 +23,9 @@ void execute(char **tokens)
 	{
 		if (execv(tokens[0], tokens) == -1)
 		{
-			free(tokens);
 			perror("./shell3");
 		}
+		free(tokens);
 	}
 
 	if (fork_id != 0)
@@ -33,6 +33,6 @@ void execute(char **tokens)
 		w_pid = wait(NULL);
 		if (w_pid == -1)
 			perror("./shell4");
-		free(tokens);
 	}
+	free(tokens);
 }

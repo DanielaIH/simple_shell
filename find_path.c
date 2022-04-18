@@ -12,7 +12,7 @@ char *find_path(char *command)
 	char *copy = NULL, *ruta = NULL, **env = environ;
 	char **directories = malloc(100), *directory = NULL;
 	struct stat st;
-	int count = 0, i = 0;
+	int count = 0, i = 0, j = 0;
 
 	for (count = 0; env[count] != NULL; count++)
 	{
@@ -24,25 +24,26 @@ char *find_path(char *command)
 	directory = strtok(copy, ":=");
 	while (directory != NULL)
 	{
-		ruta = malloc(strlen(directory) + strlen(command) + 2);
-		strcat(ruta, directory);
-		strcat(ruta, "/");
-		strcat(ruta, command);
+		directories[i] = malloc(strlen(directory) + strlen(command) + 2);
+		strcpy(directories[i], directory);
+		strcat(directories[i], "/");
+		strcat(directories[i], command);
 /*printf("%s\n", directories[i]);*/
-		if (stat(ruta, &st) == 0)
+		if (stat(directories[i], &st) == 0)
 		{
-			directories[i] = malloc(strlen(ruta) + 1);
-			directories[i] = strcpy(directories[i], ruta);
-			free(ruta);
+			ruta = malloc(strlen(directories[i]) + 1);
+			strcpy(ruta, directories[i]);
+			for (j = 0; j <= i; j++)
+				free(directories[j]);
+			free(directories);
 			free(copy);
 /*printf("in findpath tokens[0] = %s\n",directories[i]);*/
-			return (directories[i]);
+			return (ruta);
 		}
 		i++;
 		directory = strtok(NULL, ":");
-		free(ruta);
 	}
 	free(copy);
-	free(directories);
+	free(directory);
 	return (NULL);
 }
