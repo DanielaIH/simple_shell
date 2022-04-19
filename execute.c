@@ -6,7 +6,7 @@
  * Return: Nothing.
  */
 
-void execute(char **tokens)
+void execute(char **tokens, char *string)
 {
 	pid_t fork_id, w_pid; /*w_pid, pid, ppid*/
 
@@ -26,6 +26,8 @@ void execute(char **tokens)
 			perror("./shell3");
 		}
 		free(tokens);
+		free(string);
+		exit(98);
 	}
 
 	if (fork_id != 0)
@@ -33,6 +35,6 @@ void execute(char **tokens)
 		w_pid = wait(NULL);
 		if (w_pid == -1)
 			perror("./shell4");
+		free(tokens);
 	}
-	free(tokens);
 }
