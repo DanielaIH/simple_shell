@@ -10,7 +10,7 @@
 > The prompt, ($), which is called the command prompt, is issued by the shell. While the prompt is displayed, you can type a command.
 > Shell reads your input after you press Enter. It determines the command you want executed by looking at the first word of your input. The first word refers to command or executable file, while the rest of words means the program arguments. Shell takes the input and separates the words (taking account the spaces and tabs like delimeters) into tokens. After executes the program, Shell shows again the prompt and wait for another input.
 > If you want to know the detailed process behind Shell, you can visit our blog.
-Link.
+[This is an external link to Medium blog] (https://medium.com/@4427/what-happens-when-you-type-ls-l-c-in-a-shell-c4d337dc451d)
 
 ## What is the purpose of this repository?
 > This repository is mainly for learning about how a Shell works internally when we entered a command. It has a purely academic purpose, so we invite you to review this repository for a practical purpose.
