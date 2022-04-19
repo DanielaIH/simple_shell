@@ -1,24 +1,24 @@
 # 0x16. C - Simple Shell
 > This repository contains a simple command line interpreter based on Unix Shell.
 
-##What is Unix Shell?
+## What is Unix Shell?
 > A Unix shell is a command-line interpreter or shell that provides a command line user interface for Unix-like operating systems. The shell is both an interactive command language and a scripting language and is used by the operating system to control the execution of the system using shell scripts. Wikipedia.
 
 > Shell is an environment in which we can run some commands, programs, and shell scripts.  Each operating system has a different shell with slightly (sometimes very) different functionalities and set of commands and functions.
 
-##How does a Unix Shell work?
+## How does a Unix Shell work?
 > The prompt, ($), which is called the command prompt, is issued by the shell. While the prompt is displayed, you can type a command.
 > Shell reads your input after you press Enter. It determines the command you want executed by looking at the first word of your input. The first word refers to command or executable file, while the rest of words means the program arguments. Shell takes the input and separates the words (taking account the spaces and tabs like delimeters) into tokens. After executes the program, Shell shows again the prompt and wait for another input.
 > If you want to know the detailed process behind Shell, you can visit our blog.
 Link.
 
-##What is the purpose of this repository?
+## What is the purpose of this repository?
 > This repository is mainly for learning about how a Shell works internally when we entered a command. It has a purely academic purpose, so we invite you to review this repository for a practical purpose.
 
-##How this project works?
+## How this project works?
 > Below is shown the general workflow for this project.
 
-<img src="https://raw.githubusercontent.com/DanielaIH/simple_shell/workflow.png" alt="My image"/>
+<img src="https://github.com/DanielaIH/simple_shell/blob/466a9865316e0a0feceaaa78dcf585539bf4194b/workflow.jpg" alt="My image"/>
 
 | Activity  | Used function | Manual link |
 | ------------- | ------------- | ------------- |
@@ -38,5 +38,5 @@ Link.
 | Exit from interactive program | exit  | (man 3 exit) |
 | Print the error message | perror | (man 3 perror) |
 
-##How can you report an error or solve a question?
+## How can you report an error or solve a question?
 > You can contact to authors sending a message through github accounts or an email to Daniela Ibarra <4427@holbertonschool.com> Sebastian Carvajal <sevajal@yahoo.com>
