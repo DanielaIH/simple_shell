@@ -9,7 +9,7 @@ int main(void)
 {
 	char *string, **tokens;
 	size_t n = 0;
-	ssize_t gl, fd;
+	ssize_t gl, fd = 0;
 	int status = 0, tty = 1, check_b_ins;
 
 	isatty(STDIN_FILENO) == 0 ? tty = 0 : tty;
