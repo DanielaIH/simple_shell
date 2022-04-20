@@ -10,11 +10,19 @@
 void check_execution(char **tokens, char *string)
 {
 	char *ruta;
+	struct stat st;
 
-	if (tokens[0][0] == '/')
-		execute(tokens, string);
-	else if (tokens[0][0] == '.')
-		execute(tokens, string);
+	if (tokens[0][0] == '/' || tokens[0][0] == '.')
+	{
+		if (stat(tokens[0], &st) == 0)
+			execute(tokens, string);
+		else
+		{
+			free(tokens);
+			perror("./shell5");
+			return;
+		}
+	}
 	else
 	{
 		ruta = find_path(tokens[0]);
