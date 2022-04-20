@@ -28,8 +28,8 @@ int main(void)
 			else
 				return (EXIT_FAILURE); }
 		tokens = _strtok(tokens, string, " \t\n\"\'");
-		/*if (tokens[0] == NULL)
-			tokens[0] = "spaces";*/
+		if (tokens[0] == NULL)
+			tokens[0] = "spaces";
 		for (i = 0; built_ins[i].name; i++)
 		{
 			if (_strcmp(built_ins[i].name, tokens[0]) == 0)
