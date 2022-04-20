@@ -54,11 +54,13 @@ void execute(char **tokens, char *string)
 	{
 		if (execv(tokens[0], tokens) == -1)
 		{
+			free(tokens);
+			free(string);
 			perror("./shell3");
+			exit(127);
 		}
 		free(tokens);
 		free(string);
-		exit(98);
 	}
 
 	if (fork_id != 0)
