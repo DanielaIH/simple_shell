@@ -4,6 +4,7 @@
  * check_builtins - check.
  * @tokens: Array contains the tokens.
  * @string: Input.
+ * @error: error.
  * Return: 2 if exit successful, 1 if other built in successful
  * or 0 if no built in.
  */
@@ -31,6 +32,8 @@ int check_builtins(char **tokens, char *string, int *error)
 /**
  * exit_shell - exits of the shell.
  * @tokens: Array contains the tokens.
+ * @string: input.
+ * @error: error.
  * Return: Zero if successful.
  */
 
@@ -44,10 +47,13 @@ int exit_shell(char **tokens, char *string, int *error)
 /**
  * print_env - prints the current environment.
  * @tokens: double pointer to tokens.
+ * @string: input.
+ * @error: error.
  * Return: 1 if successful.
  */
 
-int print_env(char **tokens __attribute__((unused)), char *string __attribute__((unused)), int *error __attribute__((unused)))
+int print_env(char **tokens __attribute__((unused)),
+char *string __attribute__((unused)), int *error)
 {
 	char **env = environ;
 	unsigned int i, size = 0;
@@ -61,16 +67,21 @@ int print_env(char **tokens __attribute__((unused)), char *string __attribute__(
 		i++;
 	}
 
+	*error = 0;
 	return (1);
 }
 
 /**
  * _null - return 1.
  * @tokens: double pointer to tokens.
+ * @string: input.
+ * @error: error.
  * Return: 1 if successful.
  */
 
-int _null(char **tokens __attribute__((unused)), char *string __attribute__((unused)), int *error __attribute__((unused)))
+int _null(char **tokens __attribute__((unused)),
+char *string __attribute__((unused)), int *error)
 {
+	*error = 0;
 	return (1);
 }

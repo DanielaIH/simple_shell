@@ -4,6 +4,7 @@
  * check_execution - checks how to execute the command.
  * @tokens: array that contains tokens
  * @string: string captured in the stdin.
+ * @error: error.
  * Return: Nothing.
  */
 
