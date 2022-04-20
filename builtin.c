@@ -1,6 +1,39 @@
 #include "main.h"
 
 /**
+ * check_builtins - check.
+ * @tokens: Array contains the tokens.
+ * @string: Input.
+ * Return: 2 if exit successful, 1 if other built in successful
+ * or 0 if no built in.
+ */
+
+int check_builtins(char **tokens, char *string)
+{
+	command built_ins[] = { {"exit", exit_shell}, {"env", print_env},
+				{"spaces", _null}, {NULL, NULL} };
+	unsigned int i = 0;
+
+	if (tokens[0] == NULL)
+		tokens[0] = "spaces";
+
+	for (i = 0; built_ins[i].name; i++)
+	{
+		if (_strcmp(built_ins[i].name, tokens[0]) == 0)
+		{
+			if (built_ins[i].func(tokens) == 2)
+			{
+				free(string);
+				return (2);
+			}
+			else
+				return (1);
+		}
+	}
+	return (0);
+}
+
+/**
  * exit_shell - exits of the shell.
  * @tokens: Array contains the tokens.
  * Return: Zero if successful.
@@ -9,7 +42,7 @@
 int exit_shell(char **tokens)
 {
 	free(tokens);
-	return (0);
+	return (2);
 }
 
 /**

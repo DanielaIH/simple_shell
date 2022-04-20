@@ -1,6 +1,34 @@
 #include "main.h"
 
 /**
+ * check_execution - checks how to execute the command.
+ * @tokens: array that contains tokens
+ * @string: string captured in the stdin.
+ * Return: Nothing.
+ */
+
+void check_execution(char **tokens, char *string)
+{
+	char *ruta;
+
+	if (tokens[0][0] == '/')
+		execute(tokens, string);
+	else
+	{
+		ruta = find_path(tokens[0]);
+		tokens[0] = ruta;
+		if (tokens[0] == NULL)
+		{
+			perror("./shell1");
+			free(tokens);
+		}
+		else
+			execute(tokens, string);
+		free(ruta);
+	}
+}
+
+/**
  * execute - executes the command.
  * @tokens: array that contains tokens
  * @string: string captured in the stdin.

@@ -35,5 +35,7 @@ char *_strcpy(char *dest, char *src);
 int _strncmp(char *s1, char *s2, int n);
 int _strcmp(char *s1, char *s2);
 int _null(char **tokens);
+int check_builtins(char **tokens, char *string);
+void check_execution(char **tokens, char *string);
 
 #endif
