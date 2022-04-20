@@ -10,11 +10,19 @@
 #include <fcntl.h> /* open() */
 #include <unistd.h> /* constants */
 
+/**
+ * struct built_in - Struct than contains the built in commands.
+ * @name: name of the built in function.
+ * @func: call to execute the built in function.
+ */
+
 typedef struct built_in
 {
-    char *name;
-    int (*func)(char**);
+	char *name;
+	int (*func)(char **);
 } command;
+
+extern char **environ;
 
 char **_strtok(char **tokens, char *string, char *delim);
 char *find_path(char *command);

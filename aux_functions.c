@@ -1,43 +1,10 @@
 #include "main.h"
-/**
- * _strtok - Split the string in tokens.
- * @tokens: Array contains the tokens.
- * @string: Entered line.
- * @delim: chars to separate the string
- * Return: Array with tokens.
- */
-
-char **_strtok(char **tokens, char *string, char *delim)
-{
-	char *token = NULL;
-	int i = 0;
-
-	tokens = malloc(10 * sizeof(char *));
-	if (tokens == NULL)
-	{
-		free(tokens);
-		perror("./shell5");
-		return (NULL);
-	}
-
-	token = strtok(string, delim);
-	while (token != NULL)
-	{
-		tokens[i] = token;
-		i++;
-		token = strtok(NULL, delim);
-	}
-	tokens[i] = NULL;
-
-	free(token);
-	return (tokens);
-}
 
 /**
- * _strcat - concatenates two strings
- * @s1: string 1
- * @s2: string 2
- * Return: pointer to concatenated string
+ * _strcat - concatenates two strings.
+ * @dest: string dest.
+ * @src: string source.
+ * Return: pointer to concatenated string.
  */
 
 char *_strcat(char *dest, char *src)
@@ -86,9 +53,9 @@ char *_strcpy(char *dest, char *src)
 }
 
 /**
- * _strcmp - compares two strings until the n character.
- * @s1: string 1
- * @s2: string 2
+ * _strncmp - compares two strings until the n character.
+ * @s1: string 1.
+ * @s2: string 2.
  * @n: position.
  * Return: negative, positive or 0 if s1 is lower, bigger o match s2.
  */
@@ -107,9 +74,9 @@ int _strncmp(char *s1, char *s2, int n)
 
 /**
  * _strcmp - compares two strings.
- * @s1: string 1
- * @s2: string 2
- * Return: negative, positive or 0 if s1 is lower, biger o match s2
+ * @s1: string 1.
+ * @s2: string 2.
+ * Return: negative, positive or 0 if s1 is lower, biger o match s2.
  */
 
 int _strcmp(char *s1, char *s2)

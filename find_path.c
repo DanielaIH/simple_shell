@@ -8,7 +8,6 @@
 
 char *find_path(char *command)
 {
-	extern char **environ;
 	char *copy = NULL, *ruta = NULL, **env = environ;
 	char **directories = malloc(100), *directory = NULL;
 	struct stat st;
@@ -28,7 +27,6 @@ char *find_path(char *command)
 		_strcpy(directories[i], directory);
 		_strcat(directories[i], "/");
 		_strcat(directories[i], command);
-/*printf("%s\n", directories[i]);*/
 		if (stat(directories[i], &st) == 0)
 		{
 			ruta = malloc(_strlen(directories[i]) + 1);
@@ -37,7 +35,6 @@ char *find_path(char *command)
 				free(directories[j]);
 			free(directories);
 			free(copy);
-/*printf("in findpath tokens[0] = %s\n",directories[i]);*/
 			return (ruta);
 		}
 		i++;
