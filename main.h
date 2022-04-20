@@ -19,23 +19,23 @@
 typedef struct built_in
 {
 	char *name;
-	int (*func)(char **);
+	int (*func)(char **, char *, int *);
 } command;
 
 extern char **environ;
 
 char **_strtok(char **tokens, char *string, char *delim);
 char *find_path(char *command);
-int exit_shell(char **tokens);
+int exit_shell(char **tokens, char *string, int *error);
 void execute(char **tokens, char *string);
-int print_env(char **tokens);
+int print_env(char **tokens, char *string, int *error);
 char *_strcat(char *dest, char *src);
 int _strlen(char *s);
 char *_strcpy(char *dest, char *src);
 int _strncmp(char *s1, char *s2, int n);
 int _strcmp(char *s1, char *s2);
-int _null(char **tokens);
-int check_builtins(char **tokens, char *string);
-void check_execution(char **tokens, char *string);
+int _null(char **tokens, char *string, int *error);
+int check_builtins(char **tokens, char *string, int *error);
+void check_execution(char **tokens, char *string, int *error);
 
 #endif

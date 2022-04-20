@@ -7,7 +7,7 @@
  * Return: Nothing.
  */
 
-void check_execution(char **tokens, char *string)
+void check_execution(char **tokens, char *string, int *error)
 {
 	char *ruta;
 	struct stat st;
@@ -19,8 +19,8 @@ void check_execution(char **tokens, char *string)
 		else
 		{
 			free(tokens);
-			perror("./shell5");
-			return;
+			perror("./DS_SHELL5");
+			*error = 127;
 		}
 	}
 	else
@@ -29,7 +29,7 @@ void check_execution(char **tokens, char *string)
 		tokens[0] = ruta;
 		if (tokens[0] == NULL)
 		{
-			perror("./shell1");
+			perror("./DS_SHELL1");
 			free(tokens);
 		}
 		else
@@ -55,7 +55,7 @@ void execute(char **tokens, char *string)
 	if (fork_id == -1)
 	{
 		free(tokens);
-		perror("./shell2");
+		perror("./DS_SHELL2");
 	}
 
 	if (fork_id == 0)
@@ -64,7 +64,7 @@ void execute(char **tokens, char *string)
 		{
 			free(tokens);
 			free(string);
-			perror("./shell3");
+			perror("./DS_SHELL3");
 			exit(127);
 		}
 		free(tokens);
@@ -75,7 +75,7 @@ void execute(char **tokens, char *string)
 	{
 		w_pid = wait(NULL);
 		if (w_pid == -1)
-			perror("./shell4");
+			perror("./DS_SHELL4");
 		free(tokens);
 	}
 }

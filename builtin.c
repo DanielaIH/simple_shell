@@ -8,7 +8,7 @@
  * or 0 if no built in.
  */
 
-int check_builtins(char **tokens, char *string)
+int check_builtins(char **tokens, char *string, int *error)
 {
 	command built_ins[] = { {"exit", exit_shell}, {"env", print_env},
 				{"spaces", _null}, {NULL, NULL} };
@@ -21,12 +21,7 @@ int check_builtins(char **tokens, char *string)
 	{
 		if (_strcmp(built_ins[i].name, tokens[0]) == 0)
 		{
-			if (built_ins[i].func(tokens) == 2)
-			{
-				free(string);
-				return (2);
-			}
-			else
+			if (built_ins[i].func(tokens, string, error) == 1)
 				return (1);
 		}
 	}
@@ -39,10 +34,11 @@ int check_builtins(char **tokens, char *string)
  * Return: Zero if successful.
  */
 
-int exit_shell(char **tokens)
+int exit_shell(char **tokens, char *string, int *error)
 {
 	free(tokens);
-	return (2);
+	free(string);
+	exit(*error);
 }
 
 /**
@@ -51,7 +47,7 @@ int exit_shell(char **tokens)
  * Return: 1 if successful.
  */
 
-int print_env(char **tokens __attribute__((unused)))
+int print_env(char **tokens __attribute__((unused)), char *string __attribute__((unused)), int *error __attribute__((unused)))
 {
 	char **env = environ;
 	unsigned int i, size = 0;
@@ -74,7 +70,7 @@ int print_env(char **tokens __attribute__((unused)))
  * Return: 1 if successful.
  */
 
-int _null(char **tokens __attribute__((unused)))
+int _null(char **tokens __attribute__((unused)), char *string __attribute__((unused)), int *error __attribute__((unused)))
 {
 	return (1);
 }

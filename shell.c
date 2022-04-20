@@ -10,7 +10,7 @@ int main(void)
 	char *string, **tokens;
 	size_t n = 0;
 	ssize_t gl, fd = 0;
-	int status = 0, tty = 1, check_b_ins;
+	int status = 0, tty = 1, check_b_ins, error = 0;
 
 	isatty(STDIN_FILENO) == 0 ? tty = 0 : tty;
 	do {
@@ -22,17 +22,15 @@ int main(void)
 		if (gl == -1)
 		{	free(string);
 			if (feof(stdin))
-				return (EXIT_SUCCESS);
+				return (error);
 			else
 				return (EXIT_FAILURE); }
 		tokens = _strtok(tokens, string, " \t\n\"\'");
-		check_b_ins = check_builtins(tokens, string);
+		check_b_ins = check_builtins(tokens, string, &error);
 		if (check_b_ins == 1)
 			status = 1;
-		else if (check_b_ins == 2)
-			return (EXIT_SUCCESS);
 		if (status == 0)
-			check_execution(tokens, string);
+			check_execution(tokens, string, &error);
 		else
 			free(tokens);
 		free(string);
