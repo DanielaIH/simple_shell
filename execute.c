@@ -13,6 +13,8 @@ void check_execution(char **tokens, char *string)
 
 	if (tokens[0][0] == '/')
 		execute(tokens, string);
+	else if (tokens[0][0] == '.')
+		execute(tokens, string);
 	else
 	{
 		ruta = find_path(tokens[0]);
