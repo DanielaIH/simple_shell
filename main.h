@@ -38,5 +38,7 @@ int _null(char **tokens, char *string, int *error);
 int check_builtins(char **tokens, char *string, int *error);
 void check_execution(char **tokens, char *string, int *error);
 void print_error(char **tokens, int *error);
+void _print_int(int number);
+int _putchar(char c);
 
 #endif
