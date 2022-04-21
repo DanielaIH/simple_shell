@@ -41,5 +41,69 @@
 | Exit from interactive program | exit  | (man 3 exit) |
 | Print the error message | perror | (man 3 perror) |
 
+## Examples:
+Output:
+> $ echo "qwerty" | ./hsh
+
+> ./hsh: 1: qwerty: not found
+
+Interactive mode:
+>$ ./hsh
+
+>($) /bin/ls
+
+>hsh main.c shell.c
+
+>($)
+
+>($) exit
+
+>$
+
+Non-interactive mode:
+>$ echo "/bin/ls" | ./hsh
+
+>hsh main.c shell.c test_ls_2
+
+>$
+
+>$ cat test_ls_2 | ./hsh
+
+>hsh main.c shell.c test_ls_2
+
+>hsh main.c shell.c test_ls_2
+
+>$
+
+Commands with the path:
+>($) /bin/ls
+
+>barbie_j  env-main.c  exec.c  fork.c  pid.c  ppid.c    prompt   prompt.c  shell_0.3
+
+Commands without the path - no arguments:
+>($) ls
+
+>barbie_j  env-main.c  exec.c  fork.c  pid.c  ppid.c    prompt   prompt.c  shell_0.3  
+
+Commands without the path - with arguments:
+>($) ls -l /tmp 
+
+>total 20
+
+>-rw------- 1 sevajal sevajal   0 Dec  5 12:09 config-err-aAMZrR
+
+>drwx------ 3 root   root   4096 Dec  5 12:09 systemd-private-062a0eca7f2a44349733e78cb4abdff4-colord.service-V7DUzr
+
+>drwx------ 3 root   root   4096 Dec  5 12:09 systemd-private-062a0eca7f2a44349733e78cb4abdff4-rtkit-daemon.service-ANGvoV
+
+>drwx------ 3 root   root   4096 Dec  5 12:07 systemd-private-062a0eca7f2a44349733e78cb4abdff4-systemd-timesyncd.service-CdXUtH
+
+>-rw-rw-r-- 1 daniela daniela   0 Dec  5 12:09 unity_support_test.0
+
+Builtin:
+>($) exit
+
+>$
+
 ## How can you report an error or solve a question?
 > You can contact to authors sending a message through github accounts or an email to Daniela Ibarra <4427@holbertonschool.com> Sebastian Carvajal <sevajal@yahoo.com>
