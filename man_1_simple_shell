@@ -25,13 +25,13 @@ Shell takes the input and separates the words (taking account the spaces and tab
 
 With the command and arguments tokenized, the shell verifies that the commands exist and executes it. For this, it creates a child process with the system call fork to execute the process, while the parent process waits. At the end of the execution of the command by the child process, it terminates, returns to the parent process and continues the cycle generating a new prompt and waiting for another input.
 
-.B \fBBUILTIN COMMANDS\fR
+.SH BUILTIN COMMANDS
 These are the \fBBuiltin\fR commands of the DS_SHELL:
 
 \fBExit\fR	-Exits the shell.
 \fBEnv\fR	-Prints the environment variable.
 
-\fBLEXICAL STRUCTURE\fR
+.SH LEXICAL STRUCTURE
 
 DS_SHELL reads input taking account the special characters to break it into words like whitespaces (tabs and spaces), and ignores the following characters:
 
@@ -50,12 +50,12 @@ When locating a command, the shell first looks to see if it has a builtin functi
 2. The shell searches each entry in PATH in turn for the command.  The value of the PATH variable should be a series of entries separated by colons.  Each entry consists of a directory name. 
 
 
-\fBRETURN VALUE\fR
+.SH BRETURN VALUE
 
 \fBCommand Exit Status\fR
 Each command has an exit status that can influence the behavior of other shell commands.  The paradigm is that a command exits with zero for normal or success, and non-zero for failure, error, or a false indication. The man page for each command should indicate the various exit codes and what they mean. Additionally, the builtin commands return exit codes, as does an executed shell function.
 
-\fBEXAMPLES\fR
+.SH EXAMPLES
 
 \fBOutput:\fR
 $ echo "qwerty" | ./hsh
@@ -99,5 +99,5 @@ drwx------ 3 root   root   4096 Dec  5 12:07 systemd-private-062a0eca7f2a4434973
 ($) exit
 $
 
-\fBAUTHORS\fR
+.SH AUTHORS
 Written by Daniela Ibarra and Sebastian Carvajal.
