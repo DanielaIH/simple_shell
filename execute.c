@@ -16,12 +16,12 @@ void check_execution(char **tokens, char *string, int *error)
 	if (tokens[0][0] == '/' || tokens[0][0] == '.')
 	{
 		if (stat(tokens[0], &st) == 0)
-			execute(tokens, string);
+			execute(tokens, string, error);
 		else
 		{
-			free(tokens);
-			perror("./DS_SHELL5");
 			*error = 127;
+			print_error(tokens, error);
+			free(tokens);
 		}
 	}
 	else
@@ -30,11 +30,12 @@ void check_execution(char **tokens, char *string, int *error)
 		tokens[0] = ruta;
 		if (tokens[0] == NULL)
 		{
-			perror("./DS_SHELL1");
+			perror("");
 			free(tokens);
+			*error = 2;
 		}
 		else
-			execute(tokens, string);
+			execute(tokens, string, error);
 		free(ruta);
 	}
 }
@@ -46,7 +47,7 @@ void check_execution(char **tokens, char *string, int *error)
  * Return: Nothing.
  */
 
-void execute(char **tokens, char *string)
+void execute(char **tokens, char *string, int *error)
 {
 	pid_t fork_id, w_pid; /*w_pid, pid, ppid*/
 
@@ -63,10 +64,10 @@ void execute(char **tokens, char *string)
 	{
 		if (execv(tokens[0], tokens) == -1)
 		{
+			*error = 127;
+			print_error(tokens, error);
 			free(tokens);
 			free(string);
-			perror("./DS_SHELL3");
-			exit(127);
 		}
 		free(tokens);
 		free(string);
@@ -79,4 +80,26 @@ void execute(char **tokens, char *string)
 			perror("./DS_SHELL4");
 		free(tokens);
 	}
+}
+
+
+void print_error(char **tokens, int *error)
+{
+	int len_error;
+	int print_error = *error;
+
+	if (*error >= 0 && *error <= 9)
+		len_error = 1;
+	if (*error >= 10 && *error <= 99)
+		len_error = 2;
+	if (*error >= 100 && *error <= 999)
+		len_error = 3;
+
+	write(STDOUT_FILENO, "./hsh: ", 8);
+	write(STDOUT_FILENO, atoi(print_error), len_error);
+	write(STDOUT_FILENO, ": ", 2);
+	write(STDOUT_FILENO, tokens[0], _strlen(tokens[0]));
+	write(STDOUT_FILENO, ": ", 2);
+	perror("");
+	write(STDOUT_FILENO, "\n", 1);
 }

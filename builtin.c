@@ -42,6 +42,7 @@ int exit_shell(char **tokens, char *string, int *error)
 	free(tokens);
 	free(string);
 	exit(*error);
+	return (1);
 }
 
 /**

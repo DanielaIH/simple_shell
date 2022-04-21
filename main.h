@@ -27,7 +27,7 @@ extern char **environ;
 char **_strtok(char **tokens, char *string, char *delim);
 char *find_path(char *command);
 int exit_shell(char **tokens, char *string, int *error);
-void execute(char **tokens, char *string);
+void execute(char **tokens, char *string, int *error);
 int print_env(char **tokens, char *string, int *error);
 char *_strcat(char *dest, char *src);
 int _strlen(char *s);
@@ -37,5 +37,6 @@ int _strcmp(char *s1, char *s2);
 int _null(char **tokens, char *string, int *error);
 int check_builtins(char **tokens, char *string, int *error);
 void check_execution(char **tokens, char *string, int *error);
+void print_error(char **tokens, int *error);
 
 #endif
