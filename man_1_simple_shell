@@ -16,80 +16,88 @@
 
 .B \fBDS_SHELL\fR
 
-The \fBDS_SHELL\fR utility is a command line interpreter that shall
-execute commands read from a command line string, the standard input. 
+The \fBDS_SHELL\fR utility is a command line interpreter that shall execute commands read from a command line string, the standard input.
 
-The shell is a command that reads lines from either a file or the terminal, 
-interprets them, and generally executes other commands. The shell is a 
-command that reads lines from either a file or the terminal, interprets them, 
-and generally executes other commands.
+The shell is a command that reads lines from either a file or the terminal, interprets them, and generally executes other commands. The shell is a command that reads lines from either a file or the terminal, interprets them, and generally executes other commands.
 
-The interactive mode,the prompt, ($), which is called the command prompt, 
-is issued by the shell. While the prompt is displayed, the user can type a command.
+The interactive mode,the prompt, ($), which is called the command prompt, is issued by the shell. While the prompt is displayed, the user can type a command. Shell reads the input after the user press Enter. It determines the command the user wants executed by looking at the first word of the input. The first word can refer to a command built in, a command with or without the path, or an executable file, while the rest of words means the command's arguments.
+Shell takes the input and separates the words (taking account the spaces and tabs like delimiters) into tokens.
 
-Shell reads the input after the user press Enter. It determines the command 
-the user want executed by looking at the first word of the input. The first word 
-can refers to a command built in, a command with or without the path, or an 
-executable file, while the rest of words means the command's arguments. 
-Shell takes the input and separates the words (taking account 
-the spaces and tabs like delimeters) into tokens. 
+With the command and arguments tokenized, the shell verifies that the commands exist and executes it. For this, it creates a child process with the system call fork to execute the process, while the parent process waits. At the end of the execution of the command by the child process, it terminates, returns to the parent process and continues the cycle generating a new prompt and waiting for another input.
 
+.B \fBBUILTIN COMMANDS\fR
+These are the \fBBuiltin\fR commands of the DS_SHELL:
 
+\fBExit\fR	-Exits the shell.
+\fBEnv\fR	-Prints the environment variable.
 
-After executes the program, Shell shows again the prompt and wait for another input.
+\fBLEXICAL STRUCTURE\fR
 
+DS_SHELL reads input taking account the special characters to break it into words like whitespaces (tabs and spaces), and ignores the following characters:
 
+\fBQuotation marks\fR
+These are used to ignore the special meaning of some characters such as whitespaces.
 
+\fBBackslash\fR
+A backslash keeps the literal meaning of some special characters, with the exception of \n that means new line.
 
-The \fB_printf()\fR function produces output according to a format as
-described below. The \fB_printf()\fR function write output to stdout,
-the standard output stream and return the number of characters printed.
+\fBAlias\fR
+An alias is a name used to call an executable file with a shorter name (Some times is called a command with specific parameters). DS_SHELL checks the word to see if it matches an alias. If it does, it replaces it in the input with its meaning.
 
-The function write the output under the control of a format string that
-specifies how subsequent arguments are converted for output.
+\fBPath Search\fR
+When locating a command, the shell first looks to see if it has a builtin function by that name. If a builtin command is not found, one of two things happen:
+1. Command names containing a slash are simply executed without performing any searches.
+2. The shell searches each entry in PATH in turn for the command.  The value of the PATH variable should be a series of entries separated by colons.  Each entry consists of a directory name. 
 
-\fBFORMAT of the format string\fR
-
-The format string is a character string, beginning and ending in
-its initial shift state, if any.  The format string is composed
-of zero or more directives: ordinary characters (not %), which
-are copied unchanged to the output stream; and conversion
-specifications, each of which results in fetching zero or more
-subsequent arguments.  Each conversion specification is
-introduced by the character %, and ends with a conversion
-specifier.
-
-The overall syntax of a conversion specification is:
-
-\fB%conversion\fR
-
-The arguments must correspond properly (after type promotion) with
-the conversion specifier. By default, the arguments are used in the
-order given and each conversion specifier asks for the next
-argument (and it is an error if insufficiently many arguments are
-given).
-
-\fBConversion especifies\fR
-
-A character that specifies the type of conversion to be applied.
-The conversion specifiers and their meanings are:
-
-d, i		The int argument is converted to signed decimal notation.
-
-X		The unsigned int argument is converted to unsigned decimal (u), or
-		unsigned hexadecimal (the letters ABCDEF are used for X conversions.
-c		The int argument is converted to an unsigned char, and the resulting
-		character is written.
-
-s		The const char * argument is expected to be a pointer to an array of
-		character type (pointer to a string).  Characters from the array are
-		written up to (but not including) a terminating null byte ('\0').
-
-%		A '%' is written. No argument is converted. The complete conversion
-		specification is '%%'.
 
 \fBRETURN VALUE\fR
-Upon successful return, these function return the number of characters printed (excluding the null byte used to end output to strings).
+
+\fBCommand Exit Status\fR
+Each command has an exit status that can influence the behavior of other shell commands.  The paradigm is that a command exits with zero for normal or success, and non-zero for failure, error, or a false indication. The man page for each command should indicate the various exit codes and what they mean. Additionally, the builtin commands return exit codes, as does an executed shell function.
+
+\fBEXAMPLES\fR
+
+\fBOutput:\fR
+$ echo "qwerty" | ./hsh
+./hsh: 1: qwerty: not found
+
+\fBInteractive mode:\fR
+$ ./hsh
+($) /bin/ls
+hsh main.c shell.c
+($)
+($) exit
+$
+
+\fBNon-interactive mode:\fR
+$ echo "/bin/ls" | ./hsh
+hsh main.c shell.c test_ls_2
+$
+$ cat test_ls_2 | ./hsh
+hsh main.c shell.c test_ls_2
+hsh main.c shell.c test_ls_2
+$
+
+\fBCommands with the path:\fR
+($) /bin/ls
+barbie_j       env-main.c  exec.c  fork.c  pid.c  ppid.c    prompt   prompt.c  shell_0.3
+
+\fBCommands without the path - no arguments:\fR
+($) ls
+barbie_j       env-main.c  exec.c  fork.c  pid.c  ppid.c    prompt   prompt.c  shell_0.3  
+
+\fBCommands without the path - with arguments:\fR
+($) ls -l /tmp 
+total 20
+-rw------- 1 sevajal sevajal   0 Dec  5 12:09 config-err-aAMZrR
+drwx------ 3 root   root   4096 Dec  5 12:09 systemd-private-062a0eca7f2a44349733e78cb4abdff4-colord.service-V7DUzr
+drwx------ 3 root   root   4096 Dec  5 12:09 systemd-private-062a0eca7f2a44349733e78cb4abdff4-rtkit-daemon.service-ANGvoV
+drwx------ 3 root   root   4096 Dec  5 12:07 systemd-private-062a0eca7f2a44349733e78cb4abdff4-systemd-timesyncd.service-CdXUtH
+-rw-rw-r-- 1 daniela daniela   0 Dec  5 12:09 unity_support_test.0
+
+\fBBuiltin:\fR
+($) exit
+$
 
 \fBAUTHORS\fR
 Written by Daniela Ibarra and Sebastian Carvajal.
